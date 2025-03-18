@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import tw from 'twrnc';
-import Header from '../components/Header';
+import Header from './components/Header';
 
 const DateSection = () => (
     <View style={tw`flex-row justify-between p-3 font-bold text-lg bg-[#f1f0f6]`}>
@@ -27,7 +27,6 @@ const FormSection = () => (
             </View>
         </View>
 
-
         <View style={tw`flex flex-row items-start justify-between gap-4`}>
             <Text style={tw`text-gray-700 font-bold text-[14px] mb-1`}>Location:</Text>
             <TextInput
@@ -46,8 +45,6 @@ const FormSection = () => (
             </View>
 
         </View>
-
-
 
 
 
