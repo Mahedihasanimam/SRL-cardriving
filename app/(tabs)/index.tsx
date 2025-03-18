@@ -1,76 +1,93 @@
 import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
+import tw from 'twrnc';
 import Header from '../components/Header';
-import tw from '@/assets/lib/tailwind';
-
 
 const DateSection = () => (
-    <View style={styles.dateContainer}>
-        <Text style={styles.dateText}>Start Your Day</Text>
-        <Text style={styles.dateText}>Wed Jan 29 2025</Text>
+    <View style={tw`flex-row justify-between p-3 font-bold text-lg bg-[#f1f0f6]`}>
+        <Text style={tw`text-lg font-bold text-gray-700`}>Start Your Day</Text>
+        <Text style={tw`text-lg font-bold text-gray-700`}>Wed Jan 29 2025</Text>
     </View>
 );
 
 const FormSection = () => (
-    <View style={styles.formContainer}>
-        <Text style={tw`text-4xl`}>Activity:</Text>
-        <Picker style={styles.picker}>
-            <Picker.Item label="Select (Start Duty/ End Duty)" value="" />
-        </Picker>
+    <View style={tw`p-4`}>
 
-        <Text style={styles.lavel}>Location:</Text>
-        <TextInput style={styles.input} placeholder="Enter Your Location (Google)" />
+        <View style={tw`flex flex-row items-start justify-between gap-4`}>
 
-        <Text style={styles.lavel}>Current Time:</Text>
-        <Picker style={styles.picker}>
-            <Picker.Item label="By default Current Timestamp" value="" />
-        </Picker>
-
-        <Text style={styles.lavel}>Choose:</Text>
-        <View >
-            <Picker style={styles.picker}>
-                <Picker.Item label="Tractor" value="tractor" />
-            </Picker>
-            <Picker style={styles.picker}>
-                <Picker.Item label="Trailer" value="trailer" />
-            </Picker>
+            <Text style={tw`text-gray-700 font-bold text-[14px] mb-1`}>Activity:</Text>
+            <View style={tw`font-bold text-lg border border-gray-300 rounded mb-3 w-[73%]`}>
+                <Picker>
+                    <Picker.Item label="Dhaka" value="dhaka" />
+                    <Picker.Item label="london" value="london" />
+                    <Picker.Item label="uk" value="uk" />
+                    <Picker.Item label="india" value="india" />
+                </Picker>
+            </View>
         </View>
 
-        <Text style={styles.lavel}>Odometer:</Text>
-        <TextInput style={styles.input} placeholder="Enter Odometer Reading" />
+
+        <View style={tw`flex flex-row items-start justify-between gap-4`}>
+            <Text style={tw`text-gray-700 font-bold text-[14px] mb-1`}>Location:</Text>
+            <TextInput
+                style={tw`font-bold text-lg border border-gray-300 p-3 rounded mb-3 w-[73%]`}
+                placeholder="Enter Your Location (Google)"
+            />
+        </View>
+
+
+        <View style={tw`flex flex-row items-start justify-between gap-4 `}>
+            <Text style={tw`text-gray-700 font-bold text-[14px] mb-1`}>Current Time:</Text>
+            <View style={tw`font-bold text-lg border border-gray-300 rounded mb-3 flex-1`}>
+                <Picker>
+                    <Picker.Item label="By default Current Timestamp" value="" />
+                </Picker>
+            </View>
+
+        </View>
+
+
+
+
+
+        <View style={tw`flex flex-row items-start justify-between gap-4`}>
+
+            <Text style={tw`text-gray-700 font-bold text-[14px] mb-1`}>Choose:</Text>
+            <View style={tw`flex flex-row items-start justify-between gap-4 w-[73%]`}>
+                <View style={tw`font-bold text-lg border border-gray-300 rounded mb-3 flex-1`}>
+                    <Picker>
+                        <Picker.Item label="Tractor" value="tractor" />
+                    </Picker>
+                </View>
+                <View style={tw`font-bold text-lg border border-gray-300 rounded mb-3 flex-1`}>
+                    <Picker>
+                        <Picker.Item label="Trailer" value="trailer" />
+                    </Picker>
+                </View>
+            </View>
+        </View>
+
+
+        <View style={tw`flex flex-row items-center justify-between gap-4 `}>
+            <Text style={tw`text-gray-700 font-bold text-[14px] mb-1`}>Odometer:</Text>
+            <TextInput
+                style={tw`font-bold text-lg border border-gray-300 p-3 rounded w-[73%]`}
+                placeholder="Enter Odometer Reading"
+            />
+        </View>
+
+
     </View>
 );
-
 
 const HomeScreen = () => (
-    <View style={styles.container}>
-        <Header/>
+    <View style={tw`flex-1 bg-white`}>
+        <Header />
         <DateSection />
         <FormSection />
-        <Text style={{ textAlign: 'center', fontSize: 18, fontWeight: 'bold', padding: 10,backgroundColor: '#f1f0f6'}}>Today's Trip Details</Text>
-      
+        <Text style={tw`text-center bg-[#f1f0f6] p-3 font-bold text-lg`}>Today's Trip Details</Text>
     </View>
 );
-
-const styles = StyleSheet.create({
-
-    container: { flex: 1, backgroundColor: 'white' },
-    header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#29adf8', padding: 10 },
-    logo: { fontSize: 20, fontWeight: 'bold', color: 'white' },
-    userName: { fontSize: 16, color: 'white' },
-    menuButton: { padding: 5 },
-    menuIcon: { fontSize: 20, color: 'white' },
-    dateContainer: { flexDirection: 'row', justifyContent: 'space-between', padding: 10, backgroundColor: '#f1f0f6' },
-    dateText: { fontSize: 16, fontWeight: 'bold', color: '#3e3e40' },
-    formContainer: { padding: 10 },
-    picker: { backgroundColor:"#f1f0f6", borderColor: 'gray', borderWidth: 1, marginBottom: 10 },
-    lavel: { fontSize: 14, fontWeight: '500', color: '#303030', marginBottom: 5 },
-    input: { backgroundColor:"#f1f0f6", padding: 10, marginBottom: 10 },
-    // row: { flexDirection: 'row', justifyContent: 'space-between' },
-    bottomNav: { flexDirection: 'row', justifyContent: 'space-around', padding: 10, backgroundColor: 'white' },
-    icon: { width: 30, height: 30 },
-    
-});
 
 export default HomeScreen;

@@ -1,31 +1,20 @@
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
-import React from 'react'
+import { View, Text, TouchableOpacity } from 'react-native';
+import React from 'react';
+import tw from 'twrnc';
 
 const Header = () => {
     return (
-        <View style={styles.header}>
-            <Text style={{ fontSize: 30, fontWeight: 'bold', color: 'white' }}>SRL</Text>
+        <View style={tw`flex-row justify-between items-center bg-[#29adf8]  p-3`}>
+            <Text style={tw`text-2xl font-bold text-white`}>SRL</Text>
 
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
-
-                <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'white' }}>BANINDER PAL</Text>
-                <TouchableOpacity style={{ padding: 2, borderColor: 'white', borderWidth: 1, borderRadius: 100, paddingLeft: 8, paddingRight: 8 }}>
-                    <Text style={styles.menuIcon}>☰</Text>
+            <View style={tw`flex-row items-center gap-3`}>
+                <Text style={tw`text-lg font-bold text-white`}>BANINDER PAL</Text>
+                <TouchableOpacity style={tw` border border-white rounded-full px-[6px]`}>
+                    <Text style={tw`text-white text-lg`}>☰</Text>
                 </TouchableOpacity>
             </View>
         </View>
-    )
-}
+    );
+};
 
-
-const styles = StyleSheet.create({
-
-    header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#29adf8', padding: 10 },
-    logo: { fontSize: 20, fontWeight: 'bold', color: 'white' },
-    userName: { fontSize: 16, color: 'white' },
-    menuButton: { padding: 5 },
-    menuIcon: { fontSize: 20, color: 'white' },
-
-});
-
-export default Header
+export default Header;
