@@ -94,7 +94,7 @@ const FormSection = ({ formData, setFormData }) => (
   </View>
 );
 
-const HomeScreen = () => {
+const FinishTrip = () => {
   const [formData, setFormData] = useState({
     activity: '',
     location: '',
@@ -132,10 +132,10 @@ const HomeScreen = () => {
 
       <View style={tw`flex flex-row items-center justify-end px-4`}>
         <TouchableOpacity
-          style={tw`bg-[#29adf8] p-3 mb-4 rounded w-[30%]`}
+          style={tw`bg-red-500 w-full p-3 mb-4 rounded `}
           onPress={handleSubmit}
         >
-          <Text style={tw`text-white text-center font-bold text-lg`}>Start Trip</Text>
+          <Text style={tw`text-white text-center font-bold text-lg`}>Finish Trip</Text>
         </TouchableOpacity>
       </View>
 
@@ -146,9 +146,9 @@ const HomeScreen = () => {
         </View>
       )}
 
-      <Text style={tw`text-center bg-[#f1f0f6] p-3 font-bold text-lg`}>Today's Trip Details</Text>
+    
     </View>
   );
 };
 
-export default HomeScreen;
+export default FinishTrip;

@@ -30,7 +30,7 @@ const CustomSidebar = () => {
 
 
       <TouchableOpacity
-        onPress={() => navigation.navigate('index')}
+        onPress={() => navigation.navigate('HomeScreen')}
         style={tw`p-4`}>
         <Text style={tw`text-white text-xl font-semibold border-b-2 pb-2 border-white`}>BANINDER PAL</Text>
       </TouchableOpacity>
@@ -43,7 +43,7 @@ const CustomSidebar = () => {
       </TouchableOpacity>
 
       {/* Additional menu items */}
-      <TouchableOpacity style={tw`p-4`}>
+      <TouchableOpacity onPress={() => navigation.navigate('CreateNewPassword')} style={tw`p-4`}>
         <Text style={tw`text-white text-xl font-semibold border-b-2 pb-2 border-white`}>CHANGE PASSWORD</Text>
       </TouchableOpacity>
       <TouchableOpacity style={tw`p-4`}>
@@ -70,6 +70,7 @@ export default function RootLayout() {
       >
         <Drawer.Screen name="index" options={{ drawerLabel: "Home", title: "Home", headerShown: false }} />
         <Drawer.Screen name="AddTrip" options={{ headerShown: false }} />
+        <Drawer.Screen name="CreateNewPassword" options={{ headerShown: false, title: "Change Password" }} />
       </Drawer>
     </GestureHandlerRootView>
   );

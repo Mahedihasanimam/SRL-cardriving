@@ -12,6 +12,8 @@ import {
 } from 'react-native';
 import { Ionicons, MaterialIcons, AntDesign } from '@expo/vector-icons';
 import tw from 'twrnc'; // Import twrnc
+
+import { useNavigation } from '@react-navigation/native';
 import Header from './components/Header';
 
 // Define TypeScript interfaces
@@ -109,6 +111,8 @@ const AddTrip: React.FC = () => {
   const [receiverName, setReceiverName] = useState<string>('');
   const [note, setNote] = useState<string>('');
   
+
+  const Navigation = useNavigation();
   // Trip state
   const [trips, setTrips] = useState<Trip[]>([]);
   const [currentTrip, setCurrentTrip] = useState<Trip | null>(null);
@@ -258,11 +262,7 @@ const AddTrip: React.FC = () => {
     );
     
     setTrips(updatedTrips);
-    
-    // Reset form for next trip
-    Alert.alert('Trip Completed', 'Trip has been successfully added.');
-    setConsignee('Dropoff Location (Google)');
-    setReceiverName('');
+    Navigation.navigate('FinishTrip')
   };
   
   // Handle form submission
@@ -377,9 +377,6 @@ const AddTrip: React.FC = () => {
             placeholderTextColor="#000"
           />
           
-          <View style={tw`h-11 justify-center items-center border-b border-gray-300`}>
-            <Text style={tw`text-gray-500 text-base`}>Receiver Signature</Text>
-          </View>
         </View>
         
         {/* Add Trip Button */}
@@ -442,7 +439,7 @@ const AddTrip: React.FC = () => {
             {/* Finish Trip Button */}
             {currentTrip.locations.length > 1 && !currentTrip.locations.some(loc => loc.type === 'Finish') && (
               <TouchableOpacity 
-                style={tw`mx-4 my-4 bg-green-500 py-3 rounded-lg`}
+                style={tw`mx-4 my-4 bg-red-500 py-3 rounded-lg`}
                 onPress={finishTrip}
               >
                 <Text style={tw`text-white text-center font-bold`}>Finish Trip</Text>

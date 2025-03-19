@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { View, TouchableOpacity, Text, KeyboardAvoidingView, Platform } from "react-native";
 import tw from "twrnc";
-import SignInPage from "../SignInPage";
 import SignUpPage from "../SignUpPage";
+import SignInPage from "../SignInPage";
+
 
 export default function AuthScreen() {
   const [activeTab, setActiveTab] = useState("signup");
