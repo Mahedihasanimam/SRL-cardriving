@@ -135,7 +135,7 @@ const HomeScreen = () => {
           style={tw`bg-[#29adf8] p-3 mb-4 rounded w-[30%]`}
           onPress={handleSubmit}
         >
-          <Text style={tw`text-white text-center font-bold text-lg`}>Submit</Text>
+          <Text style={tw`text-white text-center font-bold text-lg`}>Make Trip</Text>
         </TouchableOpacity>
       </View>
 
