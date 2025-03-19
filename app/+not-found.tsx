@@ -11,7 +11,7 @@ export default function Index() {
       }}
     >
       <Text>Not Found</Text>
-      <Link href="/(tabs)">Go back to home</Link>
+      <Link href="/">Go back to home</Link>
     </View>
   );
 }
