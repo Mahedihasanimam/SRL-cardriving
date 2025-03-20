@@ -1,7 +1,7 @@
 import { api } from "./baseApi";
 import { configureStore } from "@reduxjs/toolkit";
 import useTokenReducer from "./features/users/UserTokenSlice";
-import userReducer from "./features/users/userSlice";
+import userReducer from "./features/users/UserApi";
 
 
 const store = configureStore({

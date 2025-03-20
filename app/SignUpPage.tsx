@@ -58,7 +58,7 @@ const SignUpPage: React.FC = () => {
         console.log("response", response);
 
         if (response?.status === 200) {
-          Alert.alert("Success", "Account created successfully.");
+          Alert.alert("Success", response?.data?.message);
           navigation.navigate("HomeScreen"); // Navigate to home screen
         } else {
           Alert.alert("Error", "Failed to create account.");
@@ -71,7 +71,7 @@ const SignUpPage: React.FC = () => {
   };
 
   return (
-    <View style={tw`bg-white p-4`}>
+    <View style={tw`bg-white `}>
       <Text style={tw`text-2xl font-semibold`}>Create Account</Text>
       <Text style={tw`text-gray-500 text-sm font-medium mt-2 mb-6`}>
         Let's get started by filling out the form below.
@@ -122,12 +122,12 @@ const SignUpPage: React.FC = () => {
       <Text style={tw`text-center text-gray-500 text-lg mt-4 mb-4`}>Or sign up with</Text>
 
       <View>
-        <TouchableOpacity style={tw`flex-row items-center border border-gray-300 p-3 w-[70%] mx-auto rounded-lg mb-3`}>
+        <TouchableOpacity style={tw`flex-row items-center border border-gray-300 p-3 w-[75%] mx-auto rounded-lg mb-3`}>
           <Ionicons name="logo-google" size={25} color="black" />
           <Text style={tw`ml-2 text-lg font-bold`}>Continue with Google</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={tw`flex-row items-center border border-gray-300 p-3 w-[70%] mx-auto rounded-lg`}>
+        <TouchableOpacity style={tw`flex-row items-center border border-gray-300 p-3 w-[75%] mx-auto rounded-lg`}>
           <Ionicons name="logo-apple" size={25} color="black" />
           <Text style={tw`ml-2 text-lg font-bold`}>Continue with Apple</Text>
         </TouchableOpacity>
