@@ -5,6 +5,8 @@ import tw from "@/assets/lib/tailwind";
 import Header from "./components/Header";
 import { Ionicons } from "@expo/vector-icons";
 import { DrawerActions, useNavigation } from "@react-navigation/native";
+import { Provider } from "react-redux";
+import store from "./redux/store";
 
 const CustomSidebar = () => {
    const navigation = useNavigation();
@@ -58,6 +60,8 @@ const CustomSidebar = () => {
 
 export default function RootLayout() {
   return (
+    <Provider store={store}>
+
     <GestureHandlerRootView style={{ flex: 1 }}>
       
       <Drawer
@@ -73,5 +77,6 @@ export default function RootLayout() {
         <Drawer.Screen name="CreateNewPassword" options={{ headerShown: false, title: "Change Password" }} />
       </Drawer>
     </GestureHandlerRootView>
+    </Provider>
   );
 }

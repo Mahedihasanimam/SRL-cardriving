@@ -3,6 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, Alert } from "react-native";
 import tw from "twrnc";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { useLoginUserMutation } from "../app/redux/features/users/UserApi"; // Correct import
 
 // Type for navigation
 type RootStackParamList = {
@@ -14,6 +15,9 @@ const SignInPage: React.FC = () => {
   const [password, setPassword] = useState<string>("");
   const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
   const navigation = useNavigation<ReactNavigation.NativeStackNavigationProp<RootStackParamList>>();
+
+
+  const [loginUser, { isLoading, isError, error, data }] = useLoginUserMutation();
 
   // Form validation function
   const validateForm = (): boolean => {
@@ -32,13 +36,27 @@ const SignInPage: React.FC = () => {
     return true;
   };
 
-  const handleSignIn = () => {
-    // If form is valid, navigate to the home screen
-    if (validateForm()) {
-      navigation.navigate("HomeScreen");
+  const handleSignIn = async () => {
+    console.log("Sign In Button Pressed", email, password);
+    try {
+      const response = await loginUser({ email, password }).unwrap();
+      console.log("Login Success:", response);
+  
+      // Check if response contains 'user' or any necessary data
+      if (response && response.user) {
+        // Proceed with the successful login
+        console.log("User Data:", response.user);
+      } else {
+        // Show alert if user data is missing
+        Alert.alert("Login Error", "User data is missing in the response.");
+      }
+  
+    } catch (err) {
+      console.error("Login Failed:", err);
+      // Show alert in case of an error
+      Alert.alert("Login Failed", "An error occurred while logging in. Please try again.");
     }
   };
-
   return (
     <View style={tw`bg-white`}>
       <Text style={tw`text-2xl font-semibold`}>Sign In</Text>
