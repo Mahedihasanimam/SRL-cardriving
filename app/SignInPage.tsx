@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, Alert } from "react-native";
 import tw from "twrnc";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { useLoginUserMutation } from "../app/redux/features/users/UserApi"; // Correct import
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Type for navigation
 type RootStackParamList = {
@@ -20,46 +21,41 @@ const SignInPage: React.FC = () => {
   const [loginUser, { isLoading, isError, error, data }] = useLoginUserMutation();
 
   // Form validation function
-  const validateForm = (): boolean => {
-    if (!email || !password) {
-      Alert.alert("Validation Error", "Email and Password are required.");
-      return false;
-    }
+  useEffect(() => {
+    const checkToken = async () => {
+      const token = await AsyncStorage.getItem('token');
+      if (token) {
+        // If token exists, navigate to HomeScreen
+        navigation.navigate('HomeScreen');
+      }
+    };
 
-    // Email validation
-    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-    if (!emailRegex.test(email)) {
-      Alert.alert("Validation Error", "Please enter a valid email.");
-      return false;
-    }
+    checkToken();
+  }, [navigation]);
 
-    return true;
-  };
 
+ 
   const handleSignIn = async () => {
     console.log("Sign In Button Pressed", email, password);
-    try {
+   
       const response = await loginUser({ email, password }).unwrap();
       console.log("Login Success:", response);
-  
-      // Check if response contains 'user' or any necessary data
-      if (response && response.user) {
-        // Proceed with the successful login
-        console.log("User Data:", response.user);
-      } else {
-        // Show alert if user data is missing
-        Alert.alert("Login Error", "User data is missing in the response.");
+
+      if(response?.data?.code === 'invalid'){
+        Alert.alert("Login Error", "Invalid email or password.");
       }
   
-    } catch (err) {
-      console.error("Login Failed:", err);
-      // Show alert in case of an error
-      Alert.alert("Login Failed", "An error occurred while logging in. Please try again.");
-    }
+      // Check if response contains 'user' or any necessary data
+      if (response?.data?.apikey) {
+       AsyncStorage.setItem("token", response?.data?.apikey);
+        alert("Sign In Success");
+        navigation.navigate("HomeScreen");
+      } 
+    
   };
   return (
     <View style={tw`bg-white`}>
-      <Text style={tw`text-2xl font-semibold`}>Sign In</Text>
+      <Text style={tw`text-2xl font-semibold`}>Sign In </Text>
       <Text style={tw`text-gray-500 text-sm font-medium mt-2 mb-6`}>
         Welcome back! Please enter your credentials.
       </Text>
@@ -86,7 +82,11 @@ const SignInPage: React.FC = () => {
       </View>
 
       <TouchableOpacity onPress={handleSignIn} style={tw`bg-[#29adf8] w-[70%] mx-auto py-3 shadow-lg rounded-lg items-center`}>
-        <Text style={tw`text-white text-lg font-bold`}>Login</Text>
+        <Text style={tw`text-white text-lg font-bold`}> {
+          isLoading ? <View style={tw`flex flex-row items-center gap-2`}><Ionicons name="refresh" size={24} color="white" /> <Text style={tw`text-[16px] text-white font-bold`}>Loading</Text></View> : "Sign In"
+        } </Text>
+       
+    
       </TouchableOpacity>
     </View>
   );

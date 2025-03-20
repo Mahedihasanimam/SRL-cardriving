@@ -3,6 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, Image, Alert } from "react-nat
 import tw from "twrnc";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { useRegisterUserMutation } from "./redux/features/users/UserApi";
 
 // Type for navigation
 type RootStackParamList = {
@@ -10,16 +11,19 @@ type RootStackParamList = {
 };
 
 const SignUpPage: React.FC = () => {
+  const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
-  const [confirmPasswordVisible, setConfirmPasswordVisible] = useState<boolean>(false);
+  
   const navigation = useNavigation<ReactNavigation.NativeStackNavigationProp<RootStackParamList>>();
+
+  // Using the register mutation hook
+  const [registerUser, { isLoading, isError, error, data }] = useRegisterUserMutation();
 
   // Form validation function
   const validateForm = (): boolean => {
-    if (!email || !password || !confirmPassword) {
+    if (!name || !email || !password) {
       Alert.alert("Validation Error", "All fields are required.");
       return false;
     }
@@ -37,29 +41,51 @@ const SignUpPage: React.FC = () => {
       return false;
     }
 
-    // Confirm password validation
-    if (password !== confirmPassword) {
-      Alert.alert("Validation Error", "Passwords do not match.");
-      return false;
-    }
-
     return true;
   };
 
-  const handleSignUp = () => {
-    // If form is valid, navigate to the home screen
+  const handleSignUp = async () => {
+    const user = {
+      name,
+      email,
+      password,
+    };
+
     if (validateForm()) {
-      navigation.navigate("HomeScreen");
+      try {
+        // Call the mutation to register the user
+        const response = await registerUser(user).unwrap();
+        console.log("response", response);
+
+        if (response?.status === 200) {
+          Alert.alert("Success", "Account created successfully.");
+          navigation.navigate("HomeScreen"); // Navigate to home screen
+        } else {
+          Alert.alert("Error", "Failed to create account.");
+        }
+      } catch (error) {
+        console.error("Error during registration", error);
+        Alert.alert("Error", "An error occurred during registration.");
+      }
     }
   };
 
   return (
-    <View style={tw`bg-white`}>
+    <View style={tw`bg-white p-4`}>
       <Text style={tw`text-2xl font-semibold`}>Create Account</Text>
       <Text style={tw`text-gray-500 text-sm font-medium mt-2 mb-6`}>
         Let's get started by filling out the form below.
       </Text>
 
+      {/* Name Input */}
+      <TextInput
+        style={tw`border border-gray-300 rounded-lg px-2 mb-4 text-[16px] font-bold text-gray-600`}
+        placeholder="Name"
+        value={name}
+        onChangeText={setName}
+      />
+
+      {/* Email Input */}
       <TextInput
         style={tw`border border-gray-300 rounded-lg px-2 mb-4 text-[16px] font-bold text-gray-600`}
         placeholder="Email"
@@ -68,6 +94,7 @@ const SignUpPage: React.FC = () => {
         keyboardType="email-address"
       />
 
+      {/* Password Input */}
       <View style={tw`flex-row items-center border border-gray-300 rounded-lg p-1 mb-4`}>
         <TextInput
           style={tw`flex-1 text-[16px] px-2 font-bold text-gray-600`}
@@ -81,26 +108,17 @@ const SignUpPage: React.FC = () => {
         </TouchableOpacity>
       </View>
 
-      <View style={tw`flex-row items-center border border-gray-300 rounded-lg p-1 mb-6`}>
-        <TextInput
-          style={tw`flex-1 text-[16px] px-2 font-bold text-gray-600`}
-          placeholder="Confirm Password"
-          value={confirmPassword}
-          onChangeText={setConfirmPassword}
-          secureTextEntry={!confirmPasswordVisible}
-        />
-        <TouchableOpacity style={tw`px-2`} onPress={() => setConfirmPasswordVisible(!confirmPasswordVisible)}>
-          <Ionicons name={confirmPasswordVisible ? "eye" : "eye-off"} size={24} color="gray" />
-        </TouchableOpacity>
-      </View>
-
+      {/* Sign Up Button */}
       <TouchableOpacity
         onPress={handleSignUp}
         style={tw`bg-[#29adf8] w-[70%] mx-auto py-3 shadow-lg rounded-lg items-center`}
       >
-        <Text style={tw`text-white text-lg font-bold`}>Get Started</Text>
+        <Text style={tw`text-white text-lg font-bold`}>
+          {isLoading ? "Signing up..." : "Get Started"}
+        </Text>
       </TouchableOpacity>
 
+      {/* Other Sign Up Options */}
       <Text style={tw`text-center text-gray-500 text-lg mt-4 mb-4`}>Or sign up with</Text>
 
       <View>

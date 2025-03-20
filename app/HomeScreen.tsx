@@ -5,6 +5,7 @@ import tw from 'twrnc';
 import Header from './components/Header';
 import { useNavigation } from '@react-navigation/native';
 import { Stack } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const currentDate = new Date();
 const formattedDate = currentDate.toLocaleDateString('en-US', {
@@ -95,6 +96,8 @@ const FormSection = ({ formData, setFormData }) => (
 );
 
 const HomeScreen = () => {
+
+  const token = AsyncStorage.getItem('token');
   const [formData, setFormData] = useState({
     activity: '',
     location: '',
@@ -147,6 +150,10 @@ const HomeScreen = () => {
       )}
 
       <Text style={tw`text-center bg-[#f1f0f6] p-3 font-bold text-lg`}>Today's Trip Details</Text>
+      <Text style={tw`text-center bg-[#f1f0f6] p-3 font-bold text-lg`}>{token}</Text>
+
+
+
     </View>
   );
 };

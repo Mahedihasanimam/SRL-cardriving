@@ -16,7 +16,7 @@ const baseQuery = fetchBaseQuery({
 
 export const api = createApi({
   reducerPath: "api",
-  baseQuery, // ✅ Use the synchronous baseQuery function
+  baseQuery,
   tagTypes: ["user", "blog", "faq", "about", "notification"],
   endpoints: () => ({}),
 });

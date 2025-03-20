@@ -4,9 +4,13 @@ const userApi = api.injectEndpoints({
   endpoints: (builder) => ({
     registerUser: builder.mutation({
       query: (user) => ({
-        url: "/auth/signup",
+        url: "/register.php",
         method: "POST",
-        body: user,
+        body: {
+          name: user.name,
+          email: user.email,
+          password: user.password,
+        }, // Sending only necessary data to the API
       }),
       invalidatesTags: ["user"],
     }),
