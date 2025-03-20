@@ -132,7 +132,7 @@ const HomeScreen = () => {
 
       <View style={tw`flex flex-row items-center justify-end px-4`}>
         <TouchableOpacity
-          style={tw`bg-[#29adf8] p-3 mb-4 rounded w-[30%]`}
+          style={tw`bg-[#29adf8] p-3 mb-4 rounded w-[40%]`}
           onPress={handleSubmit}
         >
           <Text style={tw`text-white text-center font-bold text-lg`}>Start Trip</Text>

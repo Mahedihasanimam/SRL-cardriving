@@ -335,14 +335,14 @@ const AddTrip: React.FC = () => {
             <Text style={tw`w-24 text-base font-medium`}>Delivery:</Text>
             <View style={tw`flex-1 flex-row items-center`}>
               <TouchableOpacity 
-                style={tw`w-[100px] h-11 border border-gray-300 rounded px-2.5 mr-1 flex-row items-center justify-between`}
+                style={tw`w-[90px] h-11 border border-gray-300 rounded px-2.5 mr-1 flex-row items-center justify-between`}
                 onPress={() => setShowTimeModal(true)}
               >
                 <Text>{deliveryTime}</Text>
                 <Ionicons name="time-outline" size={24} color="black" />
               </TouchableOpacity>
               
-              <TouchableOpacity style={tw`w-15 h-11 border border-gray-300 rounded items-center justify-center mr-1`}>
+              <TouchableOpacity style={tw`w-8 h-11 border border-gray-300 rounded items-center justify-center mr-1`}>
                 <TextInput
                   style={tw`text-center w-full h-full`}
                   value={quantity}
@@ -353,7 +353,7 @@ const AddTrip: React.FC = () => {
               </TouchableOpacity>
               
               <TouchableOpacity 
-                style={tw`w-[90px] h-11 border border-gray-300 rounded px-2.5 mr-1 flex-row items-center justify-between`}
+                style={tw`w-[85px] h-11 border border-gray-300 rounded px-2.5 mr-1 flex-row items-center justify-between`}
                 onPress={() => setShowTypeModal(true)}
               >
                 <Text>{type}</Text>
@@ -551,12 +551,7 @@ const AddTrip: React.FC = () => {
         <View style={tw`flex-1 justify-center items-center bg-black bg-opacity-50`}>
           <View style={tw`bg-white rounded-lg w-80 p-4`}>
             <Text style={tw`text-lg font-bold mb-4 text-center`}>Add Note</Text>
-            
-            <View style={tw`mb-4`}>
-              <Text style={tw`text-sm font-medium mb-2`}>Location:</Text>
-              <Text style={tw`border border-gray-200 p-2 rounded`}>{consignee}</Text>
-            </View>
-            
+ 
             <View style={tw`mb-4`}>
               <Text style={tw`text-sm font-medium mb-2`}>Short Note:</Text>
               <TextInput
