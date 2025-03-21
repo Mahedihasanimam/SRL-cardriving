@@ -4,6 +4,7 @@ import tw from "twrnc";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { useRegisterUserMutation } from "./redux/features/users/UserApi";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Type for navigation
 type RootStackParamList = {
@@ -58,6 +59,7 @@ const SignUpPage: React.FC = () => {
         console.log("response", response);
 
         if (response?.status === 200) {
+          AsyncStorage.setItem("token", response?.data?.apikey);
           Alert.alert("Success", response?.data?.message);
           navigation.navigate("HomeScreen"); // Navigate to home screen
         } else {
