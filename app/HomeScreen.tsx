@@ -6,8 +6,8 @@ import Header from './components/Header';
 import { useNavigation } from '@react-navigation/native';
 import { Stack } from 'expo-router';
 import AsyncStorage, { useAsyncStorage } from '@react-native-async-storage/async-storage';
-import { useActivityDropDownListQuery } from './redux/features/tripApis/TripApi';
-
+import { useActivityDropDownListQuery, useTrucksandtailorsQuery } from './redux/features/tripApis/TripApi';
+import FormSection from './components/FormSection';
 
 const currentDate = new Date();
 const formattedDate = currentDate.toLocaleDateString('en-US', {
@@ -18,7 +18,6 @@ const formattedDate = currentDate.toLocaleDateString('en-US', {
 });
 
 
-
 const DateSection = () => (
   <View style={tw`flex-row justify-between p-3 font-bold text-lg bg-[#f1f0f6]`}>
     <Text style={tw`text-lg font-bold text-gray-700`}>Start Your Day</Text>
@@ -26,99 +25,26 @@ const DateSection = () => (
   </View>
 );
 
-const FormSection = ({ formData, setFormData, activityList }) => (
-  <View style={tw`p-4`}>
-   <View style={tw`p-4`}>
-    <View style={tw`flex flex-row items-start justify-between gap-4`}>
-      <Text style={tw`text-gray-700 font-bold text-[14px] mb-1`}>Activity:</Text>
-      <View style={tw`font-bold text-lg border border-gray-300 rounded mb-3 w-[73%]`}>
-        <Picker
-          selectedValue={formData.activity}
-          onValueChange={(value) => setFormData({ ...formData, activity: value })}
-        >
-          {activityList?.map((item, index) => (
-            <Picker.Item key={index} label={item.item} value={item.item} />
-          ))}
-        </Picker>
-      </View>
-    </View>
-  </View>
 
-    <View style={tw`flex flex-row items-start justify-between gap-4`}>
-      <Text style={tw`text-gray-700 font-bold text-[14px] mb-1`}>Location:</Text>
-      <TextInput
-        style={tw`font-bold text-lg border border-gray-300 p-3 rounded mb-3 w-[73%]`}
-        placeholder="Enter Your Location (Google)"
-        value={formData.location}
-        onChangeText={(text) => setFormData({ ...formData, location: text })}
-      />
-    </View>
-
-    <View style={tw`flex flex-row items-start justify-between gap-4`}>
-      <Text style={tw`text-gray-700 font-bold text-[14px] mb-1`}>Current Time:</Text>
-      <View style={tw`font-bold text-lg border border-gray-300 rounded mb-3 flex-1`}>
-        <Picker
-          selectedValue={formData.currentTime}
-          onValueChange={(value) => setFormData({ ...formData, currentTime: value })}
-        >
-          <Picker.Item label="By default Current Timestamp" value="" />
-        </Picker>
-      </View>
-    </View>
-
-    <View style={tw`flex flex-row items-start justify-between gap-4`}>
-      <Text style={tw`text-gray-700 font-bold text-[14px] mb-1`}>Choose:</Text>
-      <View style={tw`flex flex-row items-start justify-between gap-4 w-[73%]`}>
-        <View style={tw`font-bold text-lg border border-gray-300 rounded mb-3 flex-1`}>
-          <Picker
-            selectedValue={formData.tractor}
-            onValueChange={(value) => setFormData({ ...formData, tractor: value })}
-          >
-            <Picker.Item label="Tractor" value="tractor" />
-          </Picker>
-        </View>
-        <View style={tw`font-bold text-lg border border-gray-300 rounded mb-3 flex-1`}>
-          <Picker
-            selectedValue={formData.trailer}
-            onValueChange={(value) => setFormData({ ...formData, trailer: value })}
-          >
-            <Picker.Item label="Trailer" value="trailer" />
-          </Picker>
-        </View>
-      </View>
-    </View>
-
-    <View style={tw`flex flex-row items-start justify-between gap-4`}>
-      <Text style={tw`text-gray-700 font-bold text-[14px] mb-1`}>Odometer:</Text>
-      <TextInput
-        style={tw`font-bold text-lg border border-gray-300 p-3 rounded w-[73%]`}
-        placeholder="Enter Odometer Reading"
-        value={formData.odometer}
-        onChangeText={(text) => setFormData({ ...formData, odometer: text })}
-      />
-    </View>
-  </View>
-);
 
 const HomeScreen = () => {
-const [apikey, setApikey] = useState('');
+  const [apikey, setApikey] = useState('');
   useEffect(() => {
     const checkToken = async () => {
       const token = await AsyncStorage.getItem('token');
-      if(!token){
+      if (!token) {
         navigation.navigate('SignInPage');
       }
       if (token) {
-       setApikey(token);
+        setApikey(token);
       }
     };
 
     checkToken();
   }, []);
 
-const { data, isLoading, isError, error } = useActivityDropDownListQuery({apikey: apikey});
-  
-
+  const { data, isLoading, isError, error } = useActivityDropDownListQuery({ apikey: apikey });
+  const { data:truckandTailordata, isLoading:truckloading , isError:truckerror } = useTrucksandtailorsQuery({ apikey: apikey });
   const [formData, setFormData] = useState({
     activity: '',
     location: '',
@@ -138,34 +64,34 @@ const { data, isLoading, isError, error } = useActivityDropDownListQuery({apikey
       return Alert.alert('Please fill all the fields');
     }
 
-    setLoading(true); // Start loading state
+    if(!formData.activity || !formData.location || !formData.currentTime || !formData.tractor || !formData.trailer || !formData.odometer){
+      return Alert.alert('Please fill all the fields');
+    }
 
-    // Simulate a network request
-    setTimeout(() => {
-      setLoading(false); // Stop loading after 2 seconds
-      navigation.navigate('AddTrip', { ...formData }); // Pass data to AddTrip page
-    }, 2000);
-
-
-
-if (isLoading) {
-    return <Text>Loading...</Text>;
-  }
-  if (isError) {
-    return <Text>something went wrong</Text>;
-  }
+    if(formData){
+      navigation.navigate('AddTrip', { ...formData });
+    }
 
 
-  console.log('data----------', data?.activitylist);
+
+    if (isLoading || truckloading) {
+      return <Text>Loading...</Text>;
+    }
+    if (isError || truckerror) {
+      return <Text>something went wrong</Text>;
+    }
+
+
+    console.log('data----------',truckandTailordata?.data);
 
   };
 
   return (
     <View style={tw`flex-1 bg-white`}>
-        <Stack.Screen name="Home"  options={{ headerShown: false }} />
+      <Stack.Screen name="Home" options={{ headerShown: false }} />
       <Header />
       <DateSection />
-      <FormSection formData={formData} setFormData={setFormData} activityList={data?.data?.activitylist || []} />
+      <FormSection formData={formData} setFormData={setFormData} activityList={data?.data?.activitylist || [] } trucklistandtailorlist={truckandTailordata?.data || []} />
 
 
       <View style={tw`flex flex-row items-center justify-end px-4`}>

@@ -8,8 +8,14 @@ const TripApi = api.injectEndpoints({
         method: "GET",
       }),
     }),
+   Trucksandtailors: builder.query({
+      query: ({ apikey }) => ({
+        url: `/equipmentlist.php?apikey=${apikey}`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
-export const { useActivityDropDownListQuery } = TripApi;
+export const { useActivityDropDownListQuery, useTrucksandtailorsQuery } = TripApi;
 export default TripApi;
